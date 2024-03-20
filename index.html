@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVP</title>
+    <style>
+        body {
+            background: darkslategrey;
+            color: whitesmoke;
+            margin: 10px;
+        }
+        #avp {
+            width: 100%;
+            text-wrap: wrap;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <pre id="avp">
+        loading...
+    </pre>
+    <h1 id="fps">FPS</h1>
+    <script>
+        const container = document.getElementById('avp');
+        const fpsContainer = document.getElementById('fps');
+
+        const times = [];
+        let fps;
+
+        function refreshLoop() {
+            window.requestAnimationFrame(() => {
+                const now = performance.now();
+                while (times.length > 0 && times[0] <= now - 1000) {
+                times.shift();
+                }
+                times.push(now);
+                fps = times.length;
+                fpsContainer.innerHTML = fps;
+                refreshLoop();
+            });
+            
+        }
+
+        refreshLoop();
+
+        container.innerHTML = JSON.stringify({useragent: window.navigator.userAgent, browserdata: window.navigator.userAgentData || 'none', maxTouchPoints: window.navigator.maxTouchPoints || 'none' }, null, 2);
+        console.log('User agent', window.navigator.userAgent)
+    </script>
+</body>
+</html>
