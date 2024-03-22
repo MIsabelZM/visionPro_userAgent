@@ -20,37 +20,41 @@
   <body>
     <h1>You are <span id=device>not </span>using Vision Pro</h1>
     <pre>
-        Device Width: <span id="width"></span>
-        Device Height: <span id="height"></span>
+        Device Width(px): <span id="width"></span>
+        Device Height(px): <span id="height"></span>
 
         Navigator: <span id="navigator"></span>
-      </pre>
+    </pre>
 
     <script>
+      // DOM Elements      
+      const $device = document.getElementById('device');
       const $width = document.getElementById('width');
       const $height = document.getElementById('height');
+      const $navigator = document.getElementById('navigator');
+      
+      // Window's data     
       const width = window.screen.availWidth;
       const height = window.screen.availHeight;
+      const wUserAgent = window.navigator.userAgent;
+      const wTouchPoints = window.navigator.maxTouchPoints
+      
+      const userAgents = ['Mac OS X', 'Safari', 'AppleWebKit'];
 
       $width.innerHTML = width;
       $height.innerHTML = height;
-
-      const userAgent = ['Mac OS X', 'Safari', 'AppleWebKit'];
-      const $navigator = document.getElementById('navigator');
-      const navigatorData = JSON.stringify({
-        useragent: window.navigator.userAgent,
-        maxTouchPoints: window.navigator.maxTouchPoints || 'none'
+      $navigator.innerHTML = JSON.stringify({
+        useragent: wUserAgent,
+        maxTouchPoints: wTouchPoints || 'none'
       }, null, 2);
 
-      const isAppleDevice = userAgent.every(x => window.navigator.userAgent.includes(x));
-      const isTouch = navigatorData.maxTouchPoints === 5
-      const hasSameRendition = width === 1306 && height === 735
-
-      $navigator.innerHTML = navigatorData
-
-
-      if (isAppleDevice && isTouch && hasSameRendition) {
-        device.style.display = "none"
+      const isAppleDevice = userAgents.every(userAgent => wUserAgent.includes(userAgent));
+      const isTouch = wTouchPoints === 5
+      const hasVisionProRendition = width === 1306 && height === 735
+      
+      if (isAppleDevice && isTouch && hasVisionProRendition) {
+        $device.style.display = "none"
+        console.log("Ohh Yeah!!!")
       }
 
     </script>
