@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Vision Pro</title>
+    <style>
+      body {
+        margin: 10px;
+      }
+
+      #avp {
+        width: 100%;
+        text-wrap: wrap;
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>You are <span id=device>not </span>using Vision Pro</h1>
+    <pre>
+        Device Width: <span id="width"></span>
+        Device Height: <span id="height"></span>
+
+        Navigator: <span id="navigator"></span>
+      </pre>
+
+    <script>
+      const $width = document.getElementById('width');
+      const $height = document.getElementById('height');
+      const width = window.screen.availWidth;
+      const height = window.screen.availHeight;
+
+      $width.innerHTML = width;
+      $height.innerHTML = height;
+
+      const userAgent = ['Mac OS X', 'Safari', 'AppleWebKit'];
+      const $navigator = document.getElementById('navigator');
+      const navigatorData = JSON.stringify({
+        useragent: window.navigator.userAgent,
+        maxTouchPoints: window.navigator.maxTouchPoints || 'none'
+      }, null, 2);
+
+      const isAppleDevice = userAgent.every(x => window.navigator.userAgent.includes(x));
+      const isTouch = navigatorData.maxTouchPoints === 5
+      const hasSameRendition = width === 1306 && height === 735
+
+      $navigator.innerHTML = navigatorData
+
+
+      if (isAppleDevice && isTouch && hasSameRendition) {
+        device.style.display = "none"
+      }
+
+    </script>
+  </body>
+</html>
